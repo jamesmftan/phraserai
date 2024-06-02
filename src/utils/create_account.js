@@ -1,4 +1,4 @@
-import { CREATEACCOUNT_URL } from "@/configuration/create_account_url";
+import { CREATEACCOUNT_URL } from "@/configuration/index.js";
 import { swal } from "@/utils/sweet_alert_two";
 
 export const createAccountSubmit = async (e, form, setForm) => {
