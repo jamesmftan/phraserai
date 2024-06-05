@@ -15,7 +15,7 @@ const LoginModal = ({ eyeStates, toggleVisibility }) => {
 
   return (
     <form
-      className="bg-slate-100 rounded-lg w-full 2xl:w-4/5 space-y-5 p-8"
+      className="bg-slate-100 rounded-lg w-full 2xl:w-4/5 space-y-8 p-8"
       onSubmit={(e) => handleLoginSubmit(e, form, router)}
     >
       <h1 className="text-2xl lg:text-3xl text-black font-medium">Log In</h1>
@@ -47,6 +47,9 @@ const LoginModal = ({ eyeStates, toggleVisibility }) => {
             )}
           </button>
         </div>
+        <button className="text-end">
+          <u>Forgot Password?</u>
+        </button>
       </div>
       <div className="flex flex-col gap-3">
         <button

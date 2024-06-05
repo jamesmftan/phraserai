@@ -21,7 +21,7 @@ const CreateAccountModal = ({ eyeStates, toggleVisibility }) => {
   return (
     <form
       onSubmit={(e) => createAccountSubmit(e, form, setForm)}
-      className="bg-slate-100 rounded-lg w-full 2xl:w-4/5 space-y-5 p-8"
+      className="bg-slate-100 rounded-lg w-full 2xl:w-4/5 space-y-8 p-8"
     >
       <h1 className="text-2xl lg:text-3xl text-black font-medium">
         Create Account
