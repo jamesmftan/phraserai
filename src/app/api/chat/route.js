@@ -29,15 +29,14 @@ import { StreamingTextResponse, GoogleGenerativeAIStream } from "ai";
 
 const generationConfig = {
   stopSequences: ["red"],
-  maxOutputTokens: 1000,
-  temperature: 0.7,
+  temperature: 1,
   topP: 0.6,
   topK: 16,
+  maxOutputTokens: 1000,
 };
 
 export async function POST(request) {
   const { messages, data } = await request.json();
-  console.log(data);
   const message = `Write an email reply to the sender that appears ${
     data.behavior
   } and conveys ${data.mood} in ${
@@ -46,13 +45,11 @@ export async function POST(request) {
     messages[messages.length - 1].content
   }. Lastly, enclose the reply with double quotation mark.`;
   const prompt = message;
-  console.log(prompt);
   const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
   const model = genAI.getGenerativeModel({
     model: "gemini-pro",
     generationConfig,
   });
   const streamingResponse = await model.generateContentStream(prompt);
-  console.log(streamingResponse);
   return new StreamingTextResponse(GoogleGenerativeAIStream(streamingResponse));
 }

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { IoMdArrowDropdown } from "react-icons/io";
 
-const Prompt = ({ input, handleInputChange, handleSubmit }) => {
+const Prompt = ({ input, setInput, handleInputChange, handleSubmit }) => {
   const [behavior, setBehavior] = useState("Professional");
   const [mood, setMood] = useState("Happy");
   const [language, setLanguage] = useState("English");
@@ -96,12 +96,13 @@ const Prompt = ({ input, handleInputChange, handleSubmit }) => {
 
   return (
     <form
-      className="bg-slate-700 lg:rounded-xl lg:border-2 border-slate-600 justify-between flex flex-col md:h-full gap-5 p-5"
+      className="bg-slate-700 lg:rounded-xl lg:border-2 border-slate-600 justify-between flex flex-col md:h-full gap-5 p-5 lg:p-[18px]"
       onSubmit={(e) => {
         e.preventDefault();
         handleSubmit(e, {
           data: { behavior: behavior, mood: mood, language: language },
         });
+        setInput(input);
       }}
     >
       <div className="md:justify-end flex flex-col md:flex-row items-end gap-3">
@@ -188,7 +189,7 @@ const Prompt = ({ input, handleInputChange, handleSubmit }) => {
       ></textarea>
       <div className="justify-end flex items-end">
         <button
-          className="text-black font-medium hover:text-white bg-slate-200 hover:bg-slate-900 rounded-[8px] border-2 border-slate-100 hover:border-slate-800 duration-300 px-5 py-2.5"
+          className="text-slate-200 font-medium bg-[linear-gradient(110deg,#0F172A,45%,#1e2631,55%,#0F172A)] bg-[length:200%_100%] rounded-[8px] border-2 border-slate-800 animate-shimmer hover:scale-95 duration-300 px-5 py-2.5"
           type="submit"
         >
           Generate
