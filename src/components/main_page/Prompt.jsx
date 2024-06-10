@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { IoMdArrowDropdown } from "react-icons/io";
 
-const PromptArea = ({ input, handleInputChange, handleSubmit }) => {
+const Prompt = ({ input, handleInputChange, handleSubmit }) => {
   const [behavior, setBehavior] = useState("Professional");
   const [mood, setMood] = useState("Happy");
   const [language, setLanguage] = useState("English");
@@ -30,16 +30,22 @@ const PromptArea = ({ input, handleInputChange, handleSubmit }) => {
   const dropdownBehaviorClick = (e) => {
     e.preventDefault();
     setIsDropdownBehavior(!isDropdownBehavior);
+    setIsDropdownMood(false);
+    setIsDropdownLanguage(false);
   };
 
   const dropdownMoodClick = (e) => {
     e.preventDefault();
     setIsDropdownMood(!isDropdownMood);
+    setIsDropdownBehavior(false);
+    setIsDropdownLanguage(false);
   };
 
   const dropdownLanguageClick = (e) => {
     e.preventDefault();
     setIsDropdownLanguage(!isDropdownLanguage);
+    setIsDropdownBehavior(false);
+    setIsDropdownMood(false);
   };
 
   const behaviorOptions = [
@@ -90,7 +96,7 @@ const PromptArea = ({ input, handleInputChange, handleSubmit }) => {
 
   return (
     <form
-      className="bg-slate-700 rounded-xl justify-between flex flex-col h-full border-2 border-slate-600 gap-5 p-5"
+      className="bg-slate-700 lg:rounded-xl lg:border-2 border-slate-600 justify-between flex flex-col md:h-full gap-5 p-5"
       onSubmit={(e) => {
         e.preventDefault();
         handleSubmit(e, {
@@ -98,10 +104,10 @@ const PromptArea = ({ input, handleInputChange, handleSubmit }) => {
         });
       }}
     >
-      <div className="justify-end flex flex-row gap-3">
-        <div className="relative space-y-1">
+      <div className="md:justify-end flex flex-col md:flex-row items-end gap-3">
+        <div className="relative w-full md:w-auto space-y-1">
           <button
-            className="text-slate-200 bg-slate-900 justify-center flex flex-row items-center rounded-[8px] border-2 border-slate-800 w-44 gap-1 px-3 py-1.5"
+            className="text-slate-200 bg-slate-900 justify-center flex flex-row items-center rounded-[8px] border-2 border-slate-800 w-full md:w-44 gap-1 px-3 py-1.5"
             onClick={(e) => dropdownBehaviorClick(e)}
           >
             {behavior}
@@ -110,7 +116,7 @@ const PromptArea = ({ input, handleInputChange, handleSubmit }) => {
             </span>
           </button>
           {isDropdownBehavior && (
-            <ul className=" text-white bg-slate-900 rounded-[8px] border-2 border-slate-800 absolute w-full h-48 overflow-y-auto overflow-x-hidden p-1.5">
+            <ul className="text-white bg-slate-900 rounded-[8px] border-2 border-slate-800 absolute w-full h-48 z-30 overflow-y-auto overflow-x-hidden p-1.5">
               {behaviorOptions.map((b, index) => (
                 <li
                   className="hover:bg-slate-700 rounded-[4px] px-3 py-1.5"
@@ -123,9 +129,9 @@ const PromptArea = ({ input, handleInputChange, handleSubmit }) => {
             </ul>
           )}
         </div>
-        <div className="relative space-y-1">
+        <div className="relative w-full md:w-auto space-y-1">
           <button
-            className="text-slate-200 bg-slate-900 justify-center flex flex-row items-center rounded-[8px] border-2 border-slate-800 w-44 gap-1 px-3 py-1.5"
+            className="text-slate-200 bg-slate-900 justify-center flex flex-row items-center rounded-[8px] border-2 border-slate-800 w-full md:w-44 gap-1 px-3 py-1.5"
             onClick={(e) => dropdownMoodClick(e)}
           >
             {mood}
@@ -134,7 +140,7 @@ const PromptArea = ({ input, handleInputChange, handleSubmit }) => {
             </span>
           </button>
           {isDropdownMood && (
-            <ul className="text-white bg-slate-900 rounded-[8px] border-2 border-slate-800 absolute w-full h-48 overflow-y-auto overflow-x-hidden p-1.5">
+            <ul className="text-white bg-slate-900 rounded-[8px] border-2 border-slate-800 absolute w-full h-48 z-20 overflow-y-auto overflow-x-hidden p-1.5">
               {moodOptions.map((m, index) => (
                 <li
                   className="hover:bg-slate-700 rounded-[4px] px-3 py-1.5"
@@ -147,9 +153,9 @@ const PromptArea = ({ input, handleInputChange, handleSubmit }) => {
             </ul>
           )}
         </div>
-        <div className="relative space-y-1">
+        <div className="relative w-full md:w-auto space-y-1">
           <button
-            className="text-slate-200 bg-slate-900 justify-center flex flex-row items-center rounded-[8px] border-2 border-slate-800 w-44 gap-1 px-3 py-1.5"
+            className="text-slate-200 bg-slate-900 justify-center flex flex-row items-center rounded-[8px] border-2 border-slate-800 w-full md:w-44 gap-1 px-3 py-1.5"
             onClick={(e) => dropdownLanguageClick(e)}
           >
             {language}
@@ -158,7 +164,7 @@ const PromptArea = ({ input, handleInputChange, handleSubmit }) => {
             </span>
           </button>
           {isDropdownLanguage && (
-            <ul className="text-white bg-slate-900 rounded-[8px] border-2 border-slate-800 absolute w-full h-48 overflow-y-auto overflow-x-hidden p-1.5">
+            <ul className="text-white bg-slate-900 rounded-[8px] border-2 border-slate-800 absolute w-full h-48 z-10 overflow-y-auto overflow-x-hidden p-1.5">
               {languageOptions.map((l, index) => (
                 <li
                   className="hover:bg-slate-700 rounded-[4px] px-3 py-1.5"
@@ -192,4 +198,4 @@ const PromptArea = ({ input, handleInputChange, handleSubmit }) => {
   );
 };
 
-export default PromptArea;
+export default Prompt;
