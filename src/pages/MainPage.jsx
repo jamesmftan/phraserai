@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import SideBar from "../components/main_page/SideBar";
+import Sidebar from "../components/main_page/Sidebar";
 import Generate from "../components/main_page/Generate";
 import Prompt from "../components/main_page/Prompt";
 import { useChat } from "ai/react";
@@ -26,7 +26,7 @@ const MainPage = ({ session }) => {
   return (
     <div className="grid h-screen">
       <div className="flex flex-col lg:flex-row items-start h-full lg:gap-4 lg:p-4">
-        <SideBar
+        <Sidebar
           session={session}
           isFinished={isFinished}
           setInteractionID={setInteractionID}
