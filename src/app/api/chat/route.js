@@ -26,6 +26,8 @@ export async function POST(request) {
 
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { StreamingTextResponse, GoogleGenerativeAIStream } from "ai";
+import connectMongoDB from "@/libs/mongodb";
+import Interactions from "@/models/interactions";
 
 const generationConfig = {
   stopSequences: ["red"],
@@ -35,8 +37,8 @@ const generationConfig = {
   maxOutputTokens: 1000,
 };
 
-export async function POST(request) {
-  const { messages, data } = await request.json();
+export async function POST(req) {
+  const { messages, data } = await req.json();
   const message = `Write an email reply to the sender that appears ${
     data.behavior
   } and conveys ${data.mood} in ${
@@ -44,6 +46,7 @@ export async function POST(request) {
   }. This is the sender's message: ${
     messages[messages.length - 1].content
   }. Lastly, enclose the reply with double quotation mark.`;
+  const raw_prompt = messages[messages.length - 1].content;
   const prompt = message;
   const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
   const model = genAI.getGenerativeModel({
@@ -51,5 +54,22 @@ export async function POST(request) {
     generationConfig,
   });
   const streamingResponse = await model.generateContentStream(prompt);
+  await connectMongoDB();
+  const interaction = await Interactions.findOne({
+    interaction_id: data.interaction_id,
+  });
+  if (interaction) {
+    await Interactions.updateOne(
+      { interaction_id: data.interaction_id },
+      { $set: { raw_prompt: raw_prompt } }
+    );
+  } else {
+    await Interactions.create({
+      interaction_id: data.interaction_id,
+      email: data.email,
+      raw_prompt: raw_prompt,
+      prompt: prompt,
+    });
+  }
   return new StreamingTextResponse(GoogleGenerativeAIStream(streamingResponse));
 }

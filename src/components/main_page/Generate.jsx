@@ -1,17 +1,17 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 
-const Generate = ({ messages, isLoading }) => {
+const Generate = ({ messages, isLoading, content, setContent }) => {
   const assistantMessage = messages.filter((m) => m.role === "assistant");
   const newestMessage = assistantMessage[assistantMessage.length - 1];
 
-  const [content, setContent] = useState("");
-
   useEffect(() => {
     if (newestMessage) {
-      setContent(newestMessage.content);
+      const removeDoubleQuatationMark = newestMessage.content.replace(/"/g, "");
+      setContent(removeDoubleQuatationMark);
     }
   }, [newestMessage]);
 
+  /** 
   if (isLoading) {
     return (
       <div className="bg-slate-700 lg:rounded-xl border-t-2 border-b-2 lg:border-2 border-slate-600 min-h-96 h-96 p-5 lg:p-[18px]">
@@ -19,6 +19,22 @@ const Generate = ({ messages, isLoading }) => {
           <p className="text-slate-200 text-center font-normal tracking-normal leading-normal animate-pulse">
             Please wait while PhraserAI is cooking...
           </p>
+        </div>
+      </div>
+    );
+  }
+ **/
+
+  if (isLoading) {
+    return (
+      <div className="bg-slate-700 lg:rounded-xl border-t-2 border-b-2 lg:border-2 border-slate-600 min-h-96 h-96 p-5 lg:p-[18px]">
+        <div className="bg-slate-800 flex relative w-full h-full overflow-hidden cursor-pointer rounded-[8px] p-[2px]">
+          <div className="animate-rotate absolute inset-0 h-full w-full rounded-full bg-[conic-gradient(from_90deg_at_50%_50%,#3B82F6_0%,#172554_50%,#3B82F6_100%)]"></div>
+          <div className="bg-[linear-gradient(110deg,#1e293b,45%,#172554,55%,#1e293b)] bg-[length:200%_100%] justify-center flex items-center rounded-[8px] animate-shimmer relative w-full h-full">
+            <p className="text-slate-200 text-center font-normal tracking-normal leading-normal animate-pulse">
+              Hang tight while PhraserAI whips up some magic...
+            </p>
+          </div>
         </div>
       </div>
     );

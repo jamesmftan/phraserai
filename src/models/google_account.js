@@ -1,6 +1,6 @@
 import mongoose, { Schema } from "mongoose";
 
-const newGoogleUserSchema = new Schema({
+const googleUserSchema = new Schema({
   image: String,
   name: String,
   email: String,
@@ -8,6 +8,6 @@ const newGoogleUserSchema = new Schema({
 
 const GoogleUsers =
   mongoose.models.GoogleUsers ||
-  mongoose.model("GoogleUsers", newGoogleUserSchema);
+  mongoose.model("GoogleUsers", googleUserSchema);
 
 export default GoogleUsers;

@@ -1,7 +1,16 @@
 import React, { useState } from "react";
 import { IoMdArrowDropdown } from "react-icons/io";
 
-const Prompt = ({ input, setInput, handleInputChange, handleSubmit }) => {
+const Prompt = ({
+  session,
+  interactionID,
+  input,
+  setInput,
+  isLoading,
+  setIsFinished,
+  handleInputChange,
+  handleSubmit,
+}) => {
   const [behavior, setBehavior] = useState("Professional");
   const [mood, setMood] = useState("Happy");
   const [language, setLanguage] = useState("English");
@@ -100,15 +109,22 @@ const Prompt = ({ input, setInput, handleInputChange, handleSubmit }) => {
       onSubmit={(e) => {
         e.preventDefault();
         handleSubmit(e, {
-          data: { behavior: behavior, mood: mood, language: language },
+          data: {
+            interaction_id: interactionID,
+            email: session?.user?.email,
+            behavior: behavior,
+            mood: mood,
+            language: language,
+          },
         });
         setInput(input);
+        setIsFinished(false);
       }}
     >
       <div className="md:justify-end flex flex-col md:flex-row items-end gap-3">
         <div className="relative w-full md:w-auto space-y-1">
           <button
-            className="text-slate-200 bg-slate-900 justify-center flex flex-row items-center rounded-[8px] border-2 border-slate-800 w-full md:w-44 gap-1 px-3 py-1.5"
+            className="text-slate-200 bg-slate-900 justify-center flex flex-row items-center rounded-[8px] border-2 border-slate-800 hover:scale-95 duration-300 w-full md:w-44 gap-1 px-3 py-1.5"
             onClick={(e) => dropdownBehaviorClick(e)}
           >
             {behavior}
@@ -132,7 +148,7 @@ const Prompt = ({ input, setInput, handleInputChange, handleSubmit }) => {
         </div>
         <div className="relative w-full md:w-auto space-y-1">
           <button
-            className="text-slate-200 bg-slate-900 justify-center flex flex-row items-center rounded-[8px] border-2 border-slate-800 w-full md:w-44 gap-1 px-3 py-1.5"
+            className="text-slate-200 bg-slate-900 justify-center flex flex-row items-center rounded-[8px] border-2 border-slate-800 hover:scale-95 duration-300 w-full md:w-44 gap-1 px-3 py-1.5"
             onClick={(e) => dropdownMoodClick(e)}
           >
             {mood}
@@ -156,7 +172,7 @@ const Prompt = ({ input, setInput, handleInputChange, handleSubmit }) => {
         </div>
         <div className="relative w-full md:w-auto space-y-1">
           <button
-            className="text-slate-200 bg-slate-900 justify-center flex flex-row items-center rounded-[8px] border-2 border-slate-800 w-full md:w-44 gap-1 px-3 py-1.5"
+            className="text-slate-200 bg-slate-900 justify-center flex flex-row items-center rounded-[8px] border-2 border-slate-800 hover:scale-95 duration-300 w-full md:w-44 gap-1 px-3 py-1.5"
             onClick={(e) => dropdownLanguageClick(e)}
           >
             {language}
@@ -189,8 +205,9 @@ const Prompt = ({ input, setInput, handleInputChange, handleSubmit }) => {
       ></textarea>
       <div className="justify-end flex items-end">
         <button
-          className="text-slate-200 font-medium bg-[linear-gradient(110deg,#0F172A,45%,#1e2631,55%,#0F172A)] bg-[length:200%_100%] rounded-[8px] border-2 border-slate-800 animate-shimmer hover:scale-95 duration-300 px-5 py-2.5"
-          type="submit"
+          className={`text-slate-200 font-medium bg-[linear-gradient(110deg,#0F172A,45%,#1e2631,55%,#0F172A)] bg-[length:200%_100%] rounded-[8px] border-2 border-slate-800 animate-shimmer hover:scale-95 duration-300 px-5 py-2.5 ${
+            isLoading ? "pointer-events-none" : ""
+          }`}
         >
           Generate
         </button>

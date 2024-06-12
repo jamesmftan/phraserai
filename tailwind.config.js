@@ -10,6 +10,7 @@ module.exports = {
     extend: {
       animation: {
         shimmer: "shimmer 2s linear infinite",
+        rotate: "rotate 4s linear infinite",
       },
       keyframes: {
         shimmer: {
@@ -19,6 +20,10 @@ module.exports = {
           to: {
             backgroundPosition: "-200% 0",
           },
+        },
+        rotate: {
+          "0%": { transform: "rotate(0deg) scale(180)" },
+          "100%": { transform: "rotate(-360deg) scale(180)" },
         },
       },
     },
