@@ -1,32 +1,6 @@
-/**const { GoogleGenerativeAI } = require("@google/generative-ai");
-const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
-
-const generationConfig = {
-  stopSequences: ["red"],
-  maxOutputTokens: 500,
-  temperature: 0.7,
-  topP: 0.6,
-  topK: 16,
-};
-
-const model = genAI.getGenerativeModel({
-  model: "gemini-pro",
-  generationConfig,
-});
-
-export async function POST(request) {
-  const { messages } = await request.json();
-  const prompt = messages[messages.length - 1].content;
-  const result = await model.generateContent(prompt);
-  const response = JSON.stringify(result.response.text());
-  console.log(response);
-
-  return new Response({ response: response, status: 200 });
-}**/
-
+import connectMongoDB from "@/libs/mongodb";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { StreamingTextResponse, GoogleGenerativeAIStream } from "ai";
-import connectMongoDB from "@/libs/mongodb";
 import Interactions from "@/models/interactions";
 
 const generationConfig = {
@@ -50,7 +24,7 @@ export async function POST(req) {
   const prompt = message;
   const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
   const model = genAI.getGenerativeModel({
-    model: "gemini-pro",
+    model: "gemini-1.5-flash",
     generationConfig,
   });
   const streamingResponse = await model.generateContentStream(prompt);
@@ -61,7 +35,7 @@ export async function POST(req) {
   if (interaction) {
     await Interactions.updateOne(
       { interaction_id: data.interaction_id },
-      { $set: { raw_prompt: raw_prompt } }
+      { $set: { raw_prompt: raw_prompt, prompt: prompt } }
     );
   } else {
     await Interactions.create({
@@ -73,3 +47,31 @@ export async function POST(req) {
   }
   return new StreamingTextResponse(GoogleGenerativeAIStream(streamingResponse));
 }
+
+/**
+const { GoogleGenerativeAI } = require("@google/generative-ai");
+const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
+
+const generationConfig = {
+  stopSequences: ["red"],
+  maxOutputTokens: 500,
+  temperature: 0.7,
+  topP: 0.6,
+  topK: 16,
+};
+
+const model = genAI.getGenerativeModel({
+  model: "gemini-pro",
+  generationConfig,
+});
+
+export async function POST(request) {
+  const { messages } = await request.json();
+  const prompt = messages[messages.length - 1].content;
+  const result = await model.generateContent(prompt);
+  const response = JSON.stringify(result.response.text());
+  console.log(response);
+
+  return new Response({ response: response, status: 200 });
+}
+**/

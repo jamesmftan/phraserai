@@ -1,32 +1,14 @@
 "use client";
-import { TypewriterEffectSmooth } from "./TypewriterEffect";
+import { TypewriterEffectSmooth } from "@/components/landing_page/TypewriterEffect";
 
 const LoginLeftSide = ({ loginClick, createAccountClick }) => {
-  const words = [
-    {
-      text: "Tailored",
-    },
-    {
-      text: "Responses",
-    },
-    {
-      text: "at",
-    },
-    {
-      text: "Your",
-    },
-    {
-      text: "Fingertips",
-    },
-  ];
-
   return (
     <div className="lg:justify-center flex flex-col lg:h-full gap-5 p-4 lg:p-16">
       <div className="space-y-3">
         <h1 className="text-4xl lg:text-6xl xl:text-7xl text-slate-200 font-medium">
           PhraserAI
         </h1>
-        <TypewriterEffectSmooth words={words} />
+        <TypewriterEffectSmooth />
       </div>
       <div className="flex flex-col items-center md:flex-row w-full gap-3">
         <button

@@ -1,6 +1,10 @@
 import { signIn } from "next-auth/react";
 import { swal } from "@/utils/sweet_alert_two";
 
+export const handleFormChange = (e, name, form, setForm) => {
+  setForm({ ...form, [name]: e.target.value });
+};
+
 export const handleLoginSubmit = async (e, form, router) => {
   e.preventDefault();
   const { email, password } = form;

@@ -1,15 +1,30 @@
+"use client";
 import React, { useState } from "react";
 import { IoMdArrowDropdown } from "react-icons/io";
+import { cn } from "@/utils/cn";
+import {
+  behaviorOptions,
+  moodOptions,
+  languageOptions,
+} from "@/utils/dropdown_options";
+import {
+  dropdownBehaviorClick,
+  dropdownMoodClick,
+  dropdownLanguageClick,
+  behaviorSelectClick,
+  moodSelectClick,
+  languageSelectClick,
+} from "@/utils/onclicks";
 
 const Prompt = ({
   session,
   interactionID,
   input,
   setInput,
-  isLoading,
-  setIsFinished,
   handleInputChange,
   handleSubmit,
+  isLoading,
+  setIsFinished,
 }) => {
   const [behavior, setBehavior] = useState("Professional");
   const [mood, setMood] = useState("Happy");
@@ -17,91 +32,6 @@ const Prompt = ({
   const [isDropdownBehavior, setIsDropdownBehavior] = useState(false);
   const [isDropdownMood, setIsDropdownMood] = useState(false);
   const [isDropdownLanguage, setIsDropdownLanguage] = useState(false);
-
-  const behaviorSelectClick = (e, behavior) => {
-    e.preventDefault();
-    setBehavior(behavior);
-    setIsDropdownBehavior(!isDropdownBehavior);
-  };
-
-  const moodSelectClick = (e, mood) => {
-    e.preventDefault();
-    setMood(mood);
-    setIsDropdownMood(!isDropdownMood);
-  };
-
-  const languageSelectClick = (e, mood) => {
-    e.preventDefault();
-    setLanguage(mood);
-    setIsDropdownLanguage(!isDropdownLanguage);
-  };
-
-  const dropdownBehaviorClick = (e) => {
-    e.preventDefault();
-    setIsDropdownBehavior(!isDropdownBehavior);
-    setIsDropdownMood(false);
-    setIsDropdownLanguage(false);
-  };
-
-  const dropdownMoodClick = (e) => {
-    e.preventDefault();
-    setIsDropdownMood(!isDropdownMood);
-    setIsDropdownBehavior(false);
-    setIsDropdownLanguage(false);
-  };
-
-  const dropdownLanguageClick = (e) => {
-    e.preventDefault();
-    setIsDropdownLanguage(!isDropdownLanguage);
-    setIsDropdownBehavior(false);
-    setIsDropdownMood(false);
-  };
-
-  const behaviorOptions = [
-    "Auto",
-    "Professional",
-    "Casual",
-    "Informative",
-    "Creative",
-    "Persuasive",
-    "Humorous",
-    "Formal",
-    "Technical",
-    "Conversational",
-    "Detailed",
-    "Concise",
-  ];
-
-  const moodOptions = [
-    "Auto",
-    "Sad",
-    "Happy",
-    "Angry",
-    "Surprised",
-    "Scared",
-    "Confused",
-    "Frustrated",
-    "Excited",
-    "Content",
-  ];
-
-  const languageOptions = [
-    "Auto",
-    "English",
-    "Spanish",
-    "French",
-    "Mandarin",
-    "Japanese",
-    "Korean",
-    "German",
-    "Portuguese",
-    "Russian",
-    "Italian",
-    "Arabic",
-    "Hindi",
-    "Bengali",
-    "Tagalog",
-  ];
 
   return (
     <form
@@ -125,7 +55,15 @@ const Prompt = ({
         <div className="relative w-full md:w-auto space-y-1">
           <button
             className="text-slate-200 bg-slate-900 justify-center flex flex-row items-center rounded-[8px] border-2 border-slate-800 hover:scale-95 duration-300 w-full md:w-44 gap-1 px-3 py-1.5"
-            onClick={(e) => dropdownBehaviorClick(e)}
+            onClick={(e) =>
+              dropdownBehaviorClick(
+                e,
+                isDropdownBehavior,
+                setIsDropdownBehavior,
+                setIsDropdownMood,
+                setIsDropdownLanguage
+              )
+            }
           >
             {behavior}
             <span>
@@ -138,7 +76,15 @@ const Prompt = ({
                 <li
                   className="hover:bg-slate-700 rounded-[4px] px-3 py-1.5"
                   key={index}
-                  onClick={(e) => behaviorSelectClick(e, b)}
+                  onClick={(e) =>
+                    behaviorSelectClick(
+                      e,
+                      b,
+                      isDropdownBehavior,
+                      setBehavior,
+                      setIsDropdownBehavior
+                    )
+                  }
                 >
                   {b}
                 </li>
@@ -149,7 +95,15 @@ const Prompt = ({
         <div className="relative w-full md:w-auto space-y-1">
           <button
             className="text-slate-200 bg-slate-900 justify-center flex flex-row items-center rounded-[8px] border-2 border-slate-800 hover:scale-95 duration-300 w-full md:w-44 gap-1 px-3 py-1.5"
-            onClick={(e) => dropdownMoodClick(e)}
+            onClick={(e) =>
+              dropdownMoodClick(
+                e,
+                isDropdownMood,
+                setIsDropdownMood,
+                setIsDropdownBehavior,
+                setIsDropdownLanguage
+              )
+            }
           >
             {mood}
             <span>
@@ -162,7 +116,15 @@ const Prompt = ({
                 <li
                   className="hover:bg-slate-700 rounded-[4px] px-3 py-1.5"
                   key={index}
-                  onClick={(e) => moodSelectClick(e, m)}
+                  onClick={(e) =>
+                    moodSelectClick(
+                      e,
+                      m,
+                      isDropdownMood,
+                      setMood,
+                      setIsDropdownMood
+                    )
+                  }
                 >
                   {m}
                 </li>
@@ -173,7 +135,15 @@ const Prompt = ({
         <div className="relative w-full md:w-auto space-y-1">
           <button
             className="text-slate-200 bg-slate-900 justify-center flex flex-row items-center rounded-[8px] border-2 border-slate-800 hover:scale-95 duration-300 w-full md:w-44 gap-1 px-3 py-1.5"
-            onClick={(e) => dropdownLanguageClick(e)}
+            onClick={(e) =>
+              dropdownLanguageClick(
+                e,
+                isDropdownLanguage,
+                setIsDropdownLanguage,
+                setIsDropdownBehavior,
+                setIsDropdownMood
+              )
+            }
           >
             {language}
             <span>
@@ -186,7 +156,15 @@ const Prompt = ({
                 <li
                   className="hover:bg-slate-700 rounded-[4px] px-3 py-1.5"
                   key={index}
-                  onClick={(e) => languageSelectClick(e, l)}
+                  onClick={(e) =>
+                    languageSelectClick(
+                      e,
+                      l,
+                      isDropdownLanguage,
+                      setLanguage,
+                      setIsDropdownLanguage
+                    )
+                  }
                 >
                   {l}
                 </li>
@@ -205,9 +183,10 @@ const Prompt = ({
       ></textarea>
       <div className="justify-end flex items-end">
         <button
-          className={`text-slate-200 font-medium bg-[linear-gradient(110deg,#0F172A,45%,#1e2631,55%,#0F172A)] bg-[length:200%_100%] rounded-[8px] border-2 border-slate-800 animate-shimmer hover:scale-95 duration-300 px-5 py-2.5 ${
+          className={cn(
+            "text-slate-200 font-medium bg-[linear-gradient(110deg,#0F172A,45%,#1e2631,55%,#0F172A)] bg-[length:200%_100%] rounded-[8px] border-2 border-slate-800 animate-shimmer hover:scale-95 duration-300 px-5 py-2.5",
             isLoading ? "pointer-events-none" : ""
-          }`}
+          )}
         >
           Generate
         </button>

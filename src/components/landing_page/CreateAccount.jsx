@@ -3,9 +3,10 @@ import { useState } from "react";
 import { LuEye, LuEyeOff } from "react-icons/lu";
 import { FcGoogle } from "react-icons/fc";
 import { createAccountSubmit } from "@/utils/create_account";
-import { handleGoogleLoginClick } from "@/utils/login";
+import { handleFormChange, handleGoogleLoginClick } from "@/utils/login";
+import { toggleVisibility } from "@/utils/toggle_visiblity";
 
-const CreateAccountModal = ({ eyeStates, toggleVisibility }) => {
+const CreateAccountModal = ({ eyeStates, setEyeStates }) => {
   const [form, setForm] = useState({
     first_name: "",
     last_name: "",
@@ -13,10 +14,6 @@ const CreateAccountModal = ({ eyeStates, toggleVisibility }) => {
     password: "",
     confirm_password: "",
   });
-
-  const handleFormChange = (e, name) => {
-    setForm({ ...form, [name]: e.target.value });
-  };
 
   return (
     <form
@@ -33,14 +30,14 @@ const CreateAccountModal = ({ eyeStates, toggleVisibility }) => {
             type="text"
             placeholder="First Name"
             value={form.first_name}
-            onChange={(e) => handleFormChange(e, "first_name")}
+            onChange={(e) => handleFormChange(e, "first_name", form, setForm)}
           />
           <input
             className="bg-slate-100 border-b border-black outline-none w-full px-2 py-1"
             type="text"
             placeholder="Last Name"
             value={form.last_name}
-            onChange={(e) => handleFormChange(e, "last_name")}
+            onChange={(e) => handleFormChange(e, "last_name", form, setForm)}
           />
         </div>
         <input
@@ -48,7 +45,7 @@ const CreateAccountModal = ({ eyeStates, toggleVisibility }) => {
           type="email"
           placeholder="Email"
           value={form.email}
-          onChange={(e) => handleFormChange(e, "email")}
+          onChange={(e) => handleFormChange(e, "email", form, setForm)}
         />
         <div className="flex gap-3">
           <div className="flex w-full">
@@ -57,14 +54,17 @@ const CreateAccountModal = ({ eyeStates, toggleVisibility }) => {
               type={eyeStates.createAccountPasswordVisibilityButton.type}
               placeholder="Password"
               value={form.password}
-              onChange={(e) => handleFormChange(e, "password")}
+              onChange={(e) => handleFormChange(e, "password", form, setForm)}
             />
             <button
               className="bg-slate-100 border-b border-black outline-none flex items-center px-2 py-1"
-              onClick={(e) => {
-                e.preventDefault();
-                toggleVisibility("createAccountPasswordVisibilityButton");
-              }}
+              onClick={(e) =>
+                toggleVisibility(
+                  e,
+                  "createAccountPasswordVisibilityButton",
+                  setEyeStates
+                )
+              }
             >
               {eyeStates.createAccountPasswordVisibilityButton.isEye ? (
                 <LuEyeOff />
@@ -76,23 +76,24 @@ const CreateAccountModal = ({ eyeStates, toggleVisibility }) => {
           <div className="flex w-full">
             <input
               className="bg-slate-100 border-b border-black outline-none w-full px-2 py-1"
-              type={
-                eyeStates.createAccountconfirm_passwordVisibilityButton.type
-              }
+              type={eyeStates.createAccountConfirmPasswordVisibilityButton.type}
               placeholder="Confirm Password"
               value={form.confirm_password}
-              onChange={(e) => handleFormChange(e, "confirm_password")}
+              onChange={(e) =>
+                handleFormChange(e, "confirm_password", form, setForm)
+              }
             />
             <button
               className="bg-slate-100 border-b border-black outline-none flex items-center px-2 py-1"
-              onClick={(e) => {
-                e.preventDefault();
+              onClick={(e) =>
                 toggleVisibility(
-                  "createAccountconfirm_passwordVisibilityButton"
-                );
-              }}
+                  e,
+                  "createAccountConfirmPasswordVisibilityButton",
+                  setEyeStates
+                )
+              }
             >
-              {eyeStates.createAccountconfirm_passwordVisibilityButton.isEye ? (
+              {eyeStates.createAccountConfirmPasswordVisibilityButton.isEye ? (
                 <LuEyeOff />
               ) : (
                 <LuEye />

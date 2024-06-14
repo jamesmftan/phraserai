@@ -2,11 +2,11 @@ import mongoose, { Schema } from "mongoose";
 
 const interactionSchema = new Schema(
   {
-    interaction_id: String,
-    email: String,
-    raw_prompt: String,
-    prompt: String,
-    generated: String,
+    interaction_id: { type: String, required: true, unique: true },
+    email: { type: String, required: true },
+    raw_prompt: { type: String, required: true },
+    prompt: { type: String, required: true },
+    //generated: { type: String, required: true },
   },
   { timestamps: true }
 );

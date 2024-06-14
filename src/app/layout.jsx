@@ -1,7 +1,7 @@
-import { Roboto } from "next/font/google";
 import "../styles/globals.css";
-import { cn } from "@/utils/cn";
+import { Roboto } from "next/font/google";
 import { AuthProvider } from "../utils/providers";
+import { cn } from "@/utils/cn";
 
 export const metadata = {
   title: "PhraserAI",

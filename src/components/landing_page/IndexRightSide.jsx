@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
-import Login from "./Login";
-import CreateAccount from "./CreateAccount";
+import Login from "@/components/landing_page/Login";
+import CreateAccount from "@/components/landing_page/CreateAccount";
 
 const IndexRightSide = ({ isLoginButton, isCreateAccountButton }) => {
   const [eyeStates, setEyeStates] = useState({
@@ -10,35 +10,19 @@ const IndexRightSide = ({ isLoginButton, isCreateAccountButton }) => {
       isEye: false,
       type: "password",
     },
-    createAccountconfirm_passwordVisibilityButton: {
+    createAccountConfirmPasswordVisibilityButton: {
       isEye: false,
       type: "password",
     },
   });
 
-  const toggleVisibility = (buttonKey) => {
-    setEyeStates((prevState) => {
-      const newState = !prevState[buttonKey].isEye;
-      return {
-        ...prevState,
-        [buttonKey]: {
-          isEye: newState,
-          type: newState ? "text" : "password",
-        },
-      };
-    });
-  };
-
   return (
     <div className="lg:bg-[url('/paint.jpg')] justify-center flex lg:items-center relative lg:h-full gap-5 p-4 lg:p-16">
       {isLoginButton && (
-        <Login eyeStates={eyeStates} toggleVisibility={toggleVisibility} />
+        <Login eyeStates={eyeStates} setEyeStates={setEyeStates} />
       )}
       {isCreateAccountButton && (
-        <CreateAccount
-          eyeStates={eyeStates}
-          toggleVisibility={toggleVisibility}
-        />
+        <CreateAccount eyeStates={eyeStates} setEyeStates={setEyeStates} />
       )}
     </div>
   );

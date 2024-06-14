@@ -1,9 +1,25 @@
 "use client";
-import { cn } from "@/utils/cn";
 import { motion } from "framer-motion";
+import { cn } from "@/utils/cn";
 
 export const TypewriterEffectSmooth = ({
-  words,
+  words = [
+    {
+      text: "Tailored",
+    },
+    {
+      text: "Responses",
+    },
+    {
+      text: "at",
+    },
+    {
+      text: "Your",
+    },
+    {
+      text: "Fingertips",
+    },
+  ],
   className,
   cursorClassName,
 }) => {
@@ -19,7 +35,7 @@ export const TypewriterEffectSmooth = ({
           {word.text.map((char, index) => (
             <span
               key={`char-${index}`}
-              className={cn("dark:text-white text-black", word.className)}
+              className={cn("text-slate-200", word.className)}
             >
               {char}
             </span>

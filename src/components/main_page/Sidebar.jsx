@@ -1,18 +1,25 @@
 "use client";
 import { useState, useEffect } from "react";
-import { getInteractions } from "@/utils/interactions";
-import { signOut } from "next-auth/react";
 import { FaPlus } from "react-icons/fa";
 import { PiSignOutBold } from "react-icons/pi";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { IoMdClose } from "react-icons/io";
 import { useMediaQuery } from "react-responsive";
+import { cn } from "@/utils/cn";
+import { getInteractions } from "@/utils/interactions";
+import {
+  sideBarClick,
+  addInteractionClick,
+  selectInteractionClick,
+} from "@/utils/onclicks";
+import { time } from "@/utils/time";
+import { signOut } from "next-auth/react";
 
 const Sidebar = ({
   session,
+  uuidv4,
   interactionID,
   setInteractionID,
-  uuidv4,
   setInput,
   setContent,
   isFinished,
@@ -31,39 +38,27 @@ const Sidebar = ({
       getInteractions(session, setInteractions);
     }
     getInteractions(session, setInteractions);
+    console.log(session);
   }, [isFinished, isLargeScreen]);
-
-  const sideBarClick = () => {
-    setIsSideBarOpen(!isSideBarOpen);
-  };
-  const addInteractionClick = (e) => {
-    e.preventDefault();
-    setInteractionID(uuidv4);
-    setInput("");
-    setContent("");
-  };
-
-  const selectInteractionClick = (e, interaction) => {
-    e.preventDefault();
-    setInteractionID(interaction.interaction_id);
-    setInput(interaction.raw_prompt);
-    setContent("");
-    if (!isLargeScreen) {
-      setIsSideBarOpen(false);
-    }
-  };
 
   return (
     <>
       <div className="bg-slate-700 w-full justify-between flex flex-row lg:hidden items-center p-4">
-        <button onClick={sideBarClick}>
+        <button onClick={() => sideBarClick(isSideBarOpen, setIsSideBarOpen)}>
           <GiHamburgerMenu className="text-lg text-slate-200" />
         </button>
         <h1 className="text-lg text-slate-200 font-bold">PhraserAI</h1>
         <button>
           <FaPlus
             className="text-lg text-slate-200"
-            onClick={(e) => addInteractionClick(e)}
+            onClick={() =>
+              addInteractionClick(
+                uuidv4,
+                setInteractionID,
+                setInput,
+                setContent
+              )
+            }
           />
         </button>
       </div>
@@ -71,65 +66,58 @@ const Sidebar = ({
         <div className="bg-slate-700 lg:shadow-xl lg:rounded-xl lg:border-2 lg:border-slate-600 justify-between flex flex-col fixed lg:static w-full lg:max-w-[20rem] h-full gap-8 z-40 p-5 lg:p-[18px]">
           <div className="justify-between flex flex-row items-center">
             <h1 className="text-lg text-slate-200 font-bold">PhraserAI</h1>
-            <button>
-              {isLargeScreen ? (
-                <button>
-                  <FaPlus
-                    className="text-lg text-slate-200"
-                    onClick={(e) => addInteractionClick(e)}
-                  />
-                </button>
-              ) : (
+            {isLargeScreen ? (
+              <button>
+                <FaPlus
+                  className="text-lg text-slate-200"
+                  onClick={() =>
+                    addInteractionClick(
+                      uuidv4,
+                      setInteractionID,
+                      setInput,
+                      setContent
+                    )
+                  }
+                />
+              </button>
+            ) : (
+              <button>
                 <IoMdClose
                   className="text-2xl text-slate-200"
-                  onClick={sideBarClick}
+                  onClick={() => sideBarClick(isSideBarOpen, setIsSideBarOpen)}
                 />
-              )}
-            </button>
+              </button>
+            )}
           </div>
-          <ul className="h-full lg:h-[761.49996px] space-y-0.5 pr-3 overflow-y-auto">
-            {interactions.map((i) => {
-              const updatedAt = new Date(i.updatedAt);
-              let hours = updatedAt.getHours();
-              const minutes = updatedAt.getMinutes();
-              const seconds = updatedAt.getSeconds();
-              const period = hours >= 12 ? "PM" : "AM";
-              hours = hours % 12 || 12;
-
-              const timestring = `${hours.toString().padStart(2, "0")}:${minutes
-                .toString()
-                .padStart(2, "0")}:${seconds
-                .toString()
-                .padStart(2, "0")} ${period}`;
-
-              const datestring = `${updatedAt.getFullYear()}-${(
-                updatedAt.getMonth() + 1
-              )
-                .toString()
-                .padStart(2, "0")}-${updatedAt
-                .getDate()
-                .toString()
-                .padStart(2, "0")}`;
-
-              return (
-                <li
-                  key={i.interaction_id}
-                  className={`hover:bg-slate-800 rounded-[8px] flex flex-col duration-300 px-3 py-1 ${
-                    interactionID === i.interaction_id
-                      ? "bg-slate-800 pointer-events-none"
-                      : ""
-                  }`}
-                  onClick={(e) => selectInteractionClick(e, i)}
-                >
-                  <p className="text-slate-200 font-semibold capitalize tracking-normal leading-normal truncate">
-                    {i.raw_prompt}
-                  </p>
-                  <p className="text-slate-200 font-normal tracking-normal leading-normal">
-                    {datestring} {timestring}
-                  </p>
-                </li>
-              );
-            })}
+          <ul className="h-full lg:h-[47.5937480rem] lg:grow space-y-0.5 pr-3 overflow-y-auto">
+            {interactions.map((i) => (
+              <li
+                key={i.interaction_id}
+                className={cn(
+                  "hover:bg-slate-800 rounded-[8px] flex flex-col duration-300 px-3 py-1",
+                  interactionID === i.interaction_id
+                    ? "bg-slate-800 pointer-events-none"
+                    : ""
+                )}
+                onClick={() =>
+                  selectInteractionClick(
+                    i,
+                    setInteractionID,
+                    isLargeScreen,
+                    setInput,
+                    setContent,
+                    setIsSideBarOpen
+                  )
+                }
+              >
+                <p className="text-slate-200 font-semibold capitalize tracking-normal leading-normal truncate">
+                  {i.raw_prompt}
+                </p>
+                <p className="text-slate-200 font-normal tracking-normal leading-normal">
+                  {time(i)}
+                </p>
+              </li>
+            ))}
           </ul>
           <div className="justify-between flex flex-row items-center">
             <button className="text-slate-200 hover:text-slate-900 font-bold flex flex-row items-center duration-300 gap-3">

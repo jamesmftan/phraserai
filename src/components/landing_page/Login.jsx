@@ -2,16 +2,17 @@
 import { useState } from "react";
 import { LuEye, LuEyeOff } from "react-icons/lu";
 import { FcGoogle } from "react-icons/fc";
-import { handleLoginSubmit, handleGoogleLoginClick } from "@/utils/login";
 import { useRouter } from "next/navigation";
+import {
+  handleFormChange,
+  handleLoginSubmit,
+  handleGoogleLoginClick,
+} from "@/utils/login";
+import { toggleVisibility } from "@/utils/toggle_visiblity";
 
-const LoginModal = ({ eyeStates, toggleVisibility }) => {
+const LoginModal = ({ eyeStates, setEyeStates }) => {
   const [form, setForm] = useState({ email: "", password: "" });
   const router = useRouter();
-
-  const handleFormChange = (e, name) => {
-    setForm({ ...form, [name]: e.target.value });
-  };
 
   return (
     <form
@@ -24,21 +25,20 @@ const LoginModal = ({ eyeStates, toggleVisibility }) => {
           className="bg-slate-100 border-b border-black outline-none w-full px-2 py-1"
           type="email"
           placeholder="Enter Email"
-          onChange={(e) => handleFormChange(e, "email")}
+          onChange={(e) => handleFormChange(e, "email", form, setForm)}
         />
         <div className="flex">
           <input
             className="bg-slate-100 border-b border-black outline-none w-full px-2 py-1"
             type={eyeStates.loginPasswordVisibilityButton.type}
             placeholder="Enter Password"
-            onChange={(e) => handleFormChange(e, "password")}
+            onChange={(e) => handleFormChange(e, "password", form, setForm)}
           />
           <button
             className="bg-slate-100 border-b border-black outline-none flex items-center px-2 py-1"
-            onClick={(e) => {
-              e.preventDefault();
-              toggleVisibility("loginPasswordVisibilityButton");
-            }}
+            onClick={(e) =>
+              toggleVisibility(e, "loginPasswordVisibilityButton", setEyeStates)
+            }
           >
             {eyeStates.loginPasswordVisibilityButton.isEye ? (
               <LuEyeOff />
