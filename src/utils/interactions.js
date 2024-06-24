@@ -1,4 +1,5 @@
 import { INTERACTIONS_URL } from "@/configuration/index.js";
+import { swal } from "@/utils/sweet_alert_two";
 
 export const getInteractions = async (session, setInteractions) => {
   try {
@@ -18,5 +19,7 @@ export const getInteractions = async (session, setInteractions) => {
       });
       setInteractions(result.interactions);
     }
-  } catch (e) {}
+  } catch (error) {
+    swal("Something went wrong.");
+  }
 };
