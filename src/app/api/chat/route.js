@@ -12,49 +12,40 @@ const generationConfig = {
 };
 
 export async function POST(req) {
-  try {
-    const { messages, data } = await req.json();
-    const message = `Write an email reply to the sender that appears ${
-      data.behavior
-    } and conveys ${data.mood} in ${
-      data.language
-    }. This is the sender's message: ${
-      messages[messages.length - 1].content
-    }. Lastly, enclose the reply with double quotation mark.`;
-    const raw_prompt = messages[messages.length - 1].content;
-    const prompt = message;
-    const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
-    const model = genAI.getGenerativeModel({
-      model: "gemini-1.5-flash",
-      generationConfig,
-    });
-    const streamingResponse = await model.generateContentStream(prompt);
-    await connectMongoDB();
-    const interaction = await Interactions.findOne({
-      interaction_id: data.interaction_id,
-    });
-    if (interaction) {
-      await Interactions.updateOne(
-        { interaction_id: data.interaction_id },
-        { $set: { raw_prompt: raw_prompt, prompt: prompt } }
-      );
-    } else {
-      await Interactions.create({
-        interaction_id: data.interaction_id,
-        email: data.email,
-        raw_prompt: raw_prompt,
-        prompt: prompt,
-      });
-    }
-    return new StreamingTextResponse(
-      GoogleGenerativeAIStream(streamingResponse)
+  const { messages, data } = await req.json();
+  const message = `Write an email reply to the sender that appears ${
+    data.behavior
+  } and conveys ${data.mood} in ${
+    data.language
+  }. This is the sender's message: ${
+    messages[messages.length - 1].content
+  }. Lastly, enclose the reply with double quotation mark.`;
+  const raw_prompt = messages[messages.length - 1].content;
+  const prompt = message;
+  const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
+  const model = genAI.getGenerativeModel({
+    model: "gemini-1.5-flash",
+    generationConfig,
+  });
+  const streamingResponse = await model.generateContentStream(prompt);
+  await connectMongoDB();
+  const interaction = await Interactions.findOne({
+    interaction_id: data.interaction_id,
+  });
+  if (interaction) {
+    await Interactions.updateOne(
+      { interaction_id: data.interaction_id },
+      { $set: { raw_prompt: raw_prompt, prompt: prompt } }
     );
-  } catch (error) {
-    return NextResponse.json({
-      message: "Something went wrong.",
-      status: 500,
+  } else {
+    await Interactions.create({
+      interaction_id: data.interaction_id,
+      email: data.email,
+      raw_prompt: raw_prompt,
+      prompt: prompt,
     });
   }
+  return new StreamingTextResponse(GoogleGenerativeAIStream(streamingResponse));
 }
 
 /**

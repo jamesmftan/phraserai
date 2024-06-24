@@ -1,17 +1,3 @@
-//LandingPage.jsx
-export const loginClick = (setIsLoginButton, setIsCreateAccountButton) => {
-  setIsCreateAccountButton(false);
-  setIsLoginButton(true);
-};
-
-export const createAccountClick = (
-  setIsLoginButton,
-  setIsCreateAccountButton
-) => {
-  setIsLoginButton(false);
-  setIsCreateAccountButton(true);
-};
-
 //Prompt.jsx
 export const dropdownBehaviorClick = (
   e,

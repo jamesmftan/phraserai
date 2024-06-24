@@ -28,7 +28,7 @@ export const authOptions = {
             email: user.email,
           };
         } catch (error) {
-          throw new Error("Something went wrong.");
+          throw new Error(error.message || "Something went wrong.");
         }
       },
     }),
@@ -69,7 +69,7 @@ export const authOptions = {
           }
           return user;
         } catch (error) {
-          throw new Error("Something went wrong.");
+          throw new Error(error.message || "Something went wrong.");
         }
       }
       return user;

@@ -27,11 +27,11 @@ export const handleLoginSubmit = async (e, form, router) => {
         redirect: false,
       });
       if (response.error) {
-        swal("Something went wrong.");
+        swal(response.error);
       }
       router.replace("main");
     } catch (error) {
-      swal("Something went wrong.");
+      swal(error);
     }
   }
 };
@@ -41,9 +41,7 @@ export const handleGoogleLoginClick = async (e) => {
   try {
     const response = await signIn("google", { redirect: false });
     if (response.error) {
-      swal("Something went wrong.");
+      swal(response.error);
     }
-  } catch (error) {
-    //swal("Something went wrong.");
-  }
+  } catch (error) {}
 };
