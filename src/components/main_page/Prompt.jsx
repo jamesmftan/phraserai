@@ -54,7 +54,7 @@ const Prompt = ({
       <div className="md:justify-end flex flex-col md:flex-row items-end gap-3">
         <div className="relative w-full md:w-auto space-y-1">
           <button
-            className="text-slate-200 bg-slate-900 justify-center flex flex-row items-center rounded-[8px] border-2 border-slate-800 hover:scale-95 duration-300 w-full md:w-44 gap-1 px-3 py-1.5"
+            className="text-slate-200 hover:text-slate-700 bg-slate-900 justify-center flex flex-row items-center rounded-[8px] border-2 border-slate-800 duration-300 w-full md:w-44 gap-1 px-3 py-1.5"
             onClick={(e) =>
               dropdownBehaviorClick(
                 e,
@@ -94,7 +94,7 @@ const Prompt = ({
         </div>
         <div className="relative w-full md:w-auto space-y-1">
           <button
-            className="text-slate-200 bg-slate-900 justify-center flex flex-row items-center rounded-[8px] border-2 border-slate-800 hover:scale-95 duration-300 w-full md:w-44 gap-1 px-3 py-1.5"
+            className="text-slate-200 hover:text-slate-700 bg-slate-900 justify-center flex flex-row items-center rounded-[8px] border-2 border-slate-800 duration-300 w-full md:w-44 gap-1 px-3 py-1.5"
             onClick={(e) =>
               dropdownMoodClick(
                 e,
@@ -134,7 +134,7 @@ const Prompt = ({
         </div>
         <div className="relative w-full md:w-auto space-y-1">
           <button
-            className="text-slate-200 bg-slate-900 justify-center flex flex-row items-center rounded-[8px] border-2 border-slate-800 hover:scale-95 duration-300 w-full md:w-44 gap-1 px-3 py-1.5"
+            className="text-slate-200 hover:text-slate-700 bg-slate-900 justify-center flex flex-row items-center rounded-[8px] border-2 border-slate-800 duration-300 w-full md:w-44 gap-1 px-3 py-1.5"
             onClick={(e) =>
               dropdownLanguageClick(
                 e,
@@ -184,7 +184,7 @@ const Prompt = ({
       <div className="justify-end flex items-end">
         <button
           className={cn(
-            "text-slate-200 font-medium bg-[linear-gradient(110deg,#0F172A,45%,#1e2631,55%,#0F172A)] bg-[length:200%_100%] rounded-[8px] border-2 border-slate-800 animate-shimmer hover:scale-95 duration-300 px-5 py-2.5",
+            "text-slate-200 hover:text-slate-700 font-medium bg-[linear-gradient(110deg,#0F172A,45%,#1e2631,55%,#0F172A)] bg-[length:200%_100%] rounded-[8px] border-2 border-slate-800 animate-shimmer duration-300 px-5 py-2.5",
             isLoading ? "pointer-events-none" : ""
           )}
         >

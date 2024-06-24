@@ -23,7 +23,7 @@ const MainPage = ({ session }) => {
       setIsFinished(true);
     },
     onError: (error) => {
-      swal(error);
+      swal("Something went wrong.");
     },
   });
 

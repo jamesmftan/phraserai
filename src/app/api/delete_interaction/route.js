@@ -4,11 +4,15 @@ import { NextResponse } from "next/server";
 
 export async function POST(req) {
   try {
-    const { email } = await req.json();
+    const { interaction_id } = await req.json();
     await connectMongoDB();
-    const interactions = await Interactions.find({ email });
-    if (email) {
-      return NextResponse.json({ interactions, status: 201 });
+    const interaction = await Interactions.find({ interaction_id });
+    if (interaction) {
+      await Interactions.deleteOne({ interaction_id });
+      return NextResponse.json({
+        message: "Successfully Deleted.",
+        status: 201,
+      });
     }
     return NextResponse.json({
       message: "Failed to load interactions.",
