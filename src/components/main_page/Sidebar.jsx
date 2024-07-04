@@ -7,8 +7,8 @@ import { IoMdClose } from "react-icons/io";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { useMediaQuery } from "react-responsive";
 import { cn } from "@/utils/cn";
+import { deleteInteraction } from "@/utils/delete_interaction";
 import { getInteractions } from "@/utils/interactions";
-import { swal } from "@/utils/sweet_alert_two";
 import {
   sideBarClick,
   addInteractionClick,
@@ -42,34 +42,9 @@ const Sidebar = ({
     getInteractions(session, setInteractions);
   }, [isFinished, isLargeScreen]);
 
-  const deleteInteraction = async (i) => {
-    try {
-      const response = await fetch(
-        "http://localhost:3000/api/delete_interaction",
-        {
-          method: "POST",
-          headers: { "Content-type": "application/json" },
-          body: JSON.stringify({
-            interaction_id: i.interaction_id,
-          }),
-        }
-      );
-      const result = await response.json();
-      if (response.ok) {
-        swal(result.message);
-        getInteractions(session, setInteractions);
-        addInteractionClick(uuidv4, setInteractionID, setInput, setContent);
-      } else {
-        swal(result.message);
-      }
-    } catch (error) {
-      console.log("Something went wrong.");
-    }
-  };
-
   return (
     <>
-      <div className="bg-slate-700 w-full justify-between flex flex-row lg:hidden items-center p-4">
+      <div className="bg-slate-700 w-full justify-between flex flex-row lg:hidden items-center p-5">
         <button onClick={() => sideBarClick(isSideBarOpen, setIsSideBarOpen)}>
           <GiHamburgerMenu className="text-lg text-slate-200 hover:text-slate-800 duration-300" />
         </button>
@@ -149,7 +124,19 @@ const Sidebar = ({
                 </button>
                 <button
                   className="text-slate-200 hover:text-slate-700 duration-300"
-                  onClick={() => deleteInteraction(i)}
+                  onClick={() =>
+                    deleteInteraction(
+                      i,
+                      getInteractions,
+                      session,
+                      setInteractions,
+                      addInteractionClick,
+                      uuidv4,
+                      setInteractionID,
+                      setInput,
+                      setContent
+                    )
+                  }
                 >
                   <RiDeleteBin6Line />
                 </button>

@@ -3,6 +3,7 @@ import { useState } from "react";
 import { LuEye, LuEyeOff } from "react-icons/lu";
 import { FcGoogle } from "react-icons/fc";
 import { useRouter } from "next/navigation";
+import { swalOtpCode } from "@/utils/sweet_alert_two";
 import {
   handleFormChange,
   handleLoginSubmit,
@@ -10,7 +11,7 @@ import {
 } from "@/utils/login";
 import { toggleVisibility } from "@/utils/toggle_visiblity";
 
-const LoginModal = ({ eyeStates, setEyeStates }) => {
+const LoginModal = ({ eyeStates, setEyeStates, setEmail, setIsOtp }) => {
   const [form, setForm] = useState({ email: "", password: "" });
   const router = useRouter();
 
@@ -47,7 +48,10 @@ const LoginModal = ({ eyeStates, setEyeStates }) => {
             )}
           </button>
         </div>
-        <button className="text-end">
+        <button
+          className="text-end"
+          onClick={(e) => swalOtpCode(e, setEmail, setIsOtp)}
+        >
           <u>Forgot Password?</u>
         </button>
       </div>

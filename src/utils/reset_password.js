@@ -1,20 +1,11 @@
 import { swal } from "@/utils/sweet_alert_two";
 
-export const createAccountSubmit = async (e, form, setForm) => {
+export const handleResetPasswordSubmit = async (e, form, email, setIsOtp) => {
   e.preventDefault();
-  const { first_name, last_name, email, password, confirm_password } = form;
+  const { password, confirm_password } = form;
   let validationError = "";
   let errorMessage = "";
-  if (!first_name) {
-    validationError = "missingFirstName";
-    errorMessage = "Please provide your first name.";
-  } else if (!last_name) {
-    validationError = "missingLastName";
-    errorMessage = "Please provide your last name.";
-  } else if (!email) {
-    validationError = "missingEmail";
-    errorMessage = "Please provide your email address.";
-  } else if (!password) {
+  if (!password) {
     validationError = "missingPassword";
     errorMessage = "Please provide your password.";
   } else if (password !== confirm_password) {
@@ -25,12 +16,10 @@ export const createAccountSubmit = async (e, form, setForm) => {
     swal(errorMessage);
   } else {
     try {
-      const response = await fetch(process.env.NEXT_PUBLIC_CREATEACCOUNT_URL, {
+      const response = await fetch(process.env.NEXT_PUBLIC_RESETPASSWORD_URL, {
         method: "POST",
         headers: { "Content-type": "application/json" },
         body: JSON.stringify({
-          first_name,
-          last_name,
           email,
           password,
         }),
@@ -38,16 +27,10 @@ export const createAccountSubmit = async (e, form, setForm) => {
       const result = await response.json();
       if (response.ok) {
         swal(result.message);
+        setIsOtp(false);
       }
     } catch (error) {
       swal("Something went wrong.");
     }
-    setForm({
-      first_name: "",
-      last_name: "",
-      email: "",
-      password: "",
-      confirm_password: "",
-    });
   }
 };

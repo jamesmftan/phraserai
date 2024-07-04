@@ -1,9 +1,8 @@
-import { INTERACTIONS_URL } from "@/configuration/index.js";
 import { swal } from "@/utils/sweet_alert_two";
 
 export const getInteractions = async (session, setInteractions) => {
   try {
-    const response = await fetch(INTERACTIONS_URL, {
+    const response = await fetch(process.env.NEXT_PUBLIC_INTERACTIONS_URL, {
       method: "POST",
       headers: { "Content-type": "application/json" },
       body: JSON.stringify({
