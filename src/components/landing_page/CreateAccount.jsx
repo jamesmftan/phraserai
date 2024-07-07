@@ -6,7 +6,7 @@ import { createAccountSubmit } from "@/utils/create_account";
 import { handleFormChange, handleGoogleLoginClick } from "@/utils/login";
 import { toggleVisibility } from "@/utils/toggle_visiblity";
 
-const CreateAccountModal = ({ eyeStates, setEyeStates }) => {
+const CreateAccountModal = ({ eyeStates, setEyeStates, loginClick }) => {
   const [form, setForm] = useState({
     first_name: "",
     last_name: "",
@@ -17,7 +17,7 @@ const CreateAccountModal = ({ eyeStates, setEyeStates }) => {
 
   return (
     <form
-      onSubmit={(e) => createAccountSubmit(e, form, setForm)}
+      onSubmit={(e) => createAccountSubmit(e, form, setForm, loginClick)}
       className="bg-slate-100 rounded-lg w-full 2xl:w-4/5 space-y-8 p-8"
     >
       <h1 className="text-2xl lg:text-3xl text-black font-medium">

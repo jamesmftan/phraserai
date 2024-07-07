@@ -1,6 +1,6 @@
 import { swal } from "@/utils/sweet_alert_two";
 
-export const createAccountSubmit = async (e, form, setForm) => {
+export const createAccountSubmit = async (e, form, setForm, loginClick) => {
   e.preventDefault();
   const { first_name, last_name, email, password, confirm_password } = form;
   let validationError = "";
@@ -38,6 +38,7 @@ export const createAccountSubmit = async (e, form, setForm) => {
       const result = await response.json();
       if (response.ok) {
         swal(result.message);
+        loginClick();
       }
     } catch (error) {
       swal("Something went wrong.");

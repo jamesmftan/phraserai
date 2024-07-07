@@ -28,6 +28,9 @@ const LandingPage = () => {
       <IndexRightSide
         isLoginButton={isLoginButton}
         isCreateAccountButton={isCreateAccountButton}
+        loginClick={() =>
+          loginClick(setIsLoginButton, setIsCreateAccountButton)
+        }
         setEmail={setEmail}
         setIsOtp={setIsOtp}
       />

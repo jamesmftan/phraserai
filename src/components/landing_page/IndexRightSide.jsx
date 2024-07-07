@@ -6,6 +6,7 @@ import CreateAccount from "@/components/landing_page/CreateAccount";
 const IndexRightSide = ({
   isLoginButton,
   isCreateAccountButton,
+  loginClick,
   setEmail,
   setIsOtp,
 }) => {
@@ -32,7 +33,11 @@ const IndexRightSide = ({
         />
       )}
       {isCreateAccountButton && (
-        <CreateAccount eyeStates={eyeStates} setEyeStates={setEyeStates} />
+        <CreateAccount
+          eyeStates={eyeStates}
+          setEyeStates={setEyeStates}
+          loginClick={loginClick}
+        />
       )}
     </div>
   );
